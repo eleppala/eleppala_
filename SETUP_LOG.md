@@ -80,10 +80,64 @@ npm run dev
 - Open `http://localhost:5173` in browser
 - Test Tailwind by adding classes like `text-blue-500` to elements in `App.tsx`
 
-**Status:** ⏳ In Progress
+**Status:** ✅ Complete
+
+---
+
+### Step 7: Clean Up Default Files
+Deleted unused Vite template files:
+- `src/App.css` - not needed (using Tailwind)
+- `src/assets/react.svg` - default logo not used
+- `public/vite.svg` - default favicon (can replace later)
+
+**Status:** ✅ Complete
+
+---
+
+### Step 8: Create Initial App
+Replaced default `src/App.tsx` with minimal "Building new" page:
+```tsx
+function App() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <h1 className="text-4xl font-bold text-blue-500">Building new</h1>
+    </div>
+  )
+}
+
+export default App
+```
+
+**Status:** ✅ Complete
+
+---
+
+## Git Conventions
+
+### Commit Message Format
+```
+<type>: <short description>
+```
+
+Types:
+- `feat:` - new feature
+- `fix:` - bug fix
+- `refactor:` - code restructure without changing behavior
+- `chore:` - maintenance (deps, config, cleanup)
+- `docs:` - documentation changes
+- `style:` - formatting, no code change
+
+### Workflow
+```bash
+git status                  # review changes
+git add <files>             # stage specific files (or git add . for related changes)
+git commit -m "type: description"
+git push
+```
 
 ---
 
 ## Notes
 - Document created: 2026-01-14
 - Using Tailwind v4 (new setup process, no config files needed)
+- Vite auto-generated `.gitignore` covers: node_modules, dist, logs, editor files
