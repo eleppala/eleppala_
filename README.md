@@ -20,28 +20,43 @@ npm run dev
 
 # Build for production
 npm run build
-Git Workflow
+```
+
+## Theme Configuration
+
+Custom colors and fonts are configured in `src/index.css` using Tailwind v4's `@theme` directive:
+
+```css
+@theme {
+  --font-sans: 'FontName', system-ui, sans-serif;
+  --color-primary: #hexvalue;
+  --color-secondary: #hexvalue;
+  --color-third: #hexvalue;
+}
+```
+
+**Usage:**
+- Colors: `bg-primary`, `text-secondary`, `border-third`
+- Font weights: `font-normal`, `font-medium`, `font-semibold`, `font-bold`
+
+## Git Workflow
+
 This project uses a simplified Git Flow:
 
-
+```
 main (production)
   └── dev (integration)
         └── feat/* or fix/* (feature branches)
-Commit Convention
+```
 
+### Commit Convention
+
+```
 <type>: <description>
-Types: feat, fix, refactor, chore, docs, style
+```
 
-Documentation
-See SETUP_LOG.md for detailed setup steps and conventions.
+Types: `feat`, `fix`, `refactor`, `chore`, `docs`, `style`
 
+## Documentation
 
-
----
-
-Create this file, then commit it to your `dev` branch:
-
-```bash
-git add README.md
-git commit -m "docs: add project README"
-git push
+See [SETUP_LOG.md](SETUP_LOG.md) for detailed setup steps and conventions.

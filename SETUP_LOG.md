@@ -95,18 +95,32 @@ Deleted unused Vite template files:
 ---
 
 ### Step 8: Create Initial App
-Replaced default `src/App.tsx` with minimal "Building new" page:
-```tsx
-function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-blue-500">Building new</h1>
-    </div>
-  )
-}
+Replaced default `src/App.tsx` with minimal "Building new" page.
 
-export default App
+**Status:** ✅ Complete
+
+---
+
+### Step 9: Configure Theme (Colors & Fonts)
+Update `src/index.css` to define custom colors and fonts:
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=YourFont:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'YourFont', system-ui, sans-serif;
+  --color-primary: #hexvalue;
+  --color-secondary: #hexvalue;
+  --color-third: #hexvalue;
+}
 ```
+
+**Usage:**
+- Colors: `bg-primary`, `text-secondary`, `border-third`
+- Font weights: `font-normal` (400), `font-medium` (500), `font-semibold` (600), `font-bold` (700)
+
+**Note:** Font import must come before `@import "tailwindcss"`
 
 **Status:** ✅ Complete
 
