@@ -137,6 +137,49 @@ git push
 
 ---
 
+## Branching Strategy
+
+```
+main (production - deployed)
+  └── dev (integration branch)
+        ├── feat/feature-name
+        └── fix/bug-name
+```
+
+### Branch Types
+- **`main`** - always deployable, only receives merges from `dev`
+- **`dev`** - integration branch where features come together
+- **`feat/*`** - new features
+- **`fix/*`** - bug fixes
+
+### Workflow
+```bash
+# Start new feature (from dev)
+git checkout dev
+git pull
+git checkout -b feat/feature-name
+
+# Work, commit changes...
+git add <files>
+git commit -m "feat: description"
+
+# Merge to dev when done
+git checkout dev
+git merge feat/feature-name
+git push
+git branch -d feat/feature-name    # delete feature branch
+
+# Deploy: merge dev to main
+git checkout main
+git merge dev
+git push
+```
+
+### Useful Flags
+- `git push -u origin <branch>` - the `-u` (or `--set-upstream`) links local branch to remote, so future `git push`/`git pull` commands don't need branch name
+
+---
+
 ## Notes
 - Document created: 2026-01-14
 - Using Tailwind v4 (new setup process, no config files needed)
