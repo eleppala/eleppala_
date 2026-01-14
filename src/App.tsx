@@ -4,6 +4,7 @@ import Topbar from './components/Topbar'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import Build from './pages/Build'
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/build" element={<Build />} />
       </Routes>
     </BrowserRouter>
   )

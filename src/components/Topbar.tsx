@@ -8,6 +8,7 @@ function Topbar() {
         <div className="flex gap-6">
           <Link to="/" className="hover:text-primary">Home</Link>
           <Link to="/about" className="hover:text-primary">About</Link>
+          <Link to="/build" className="hover:text-primary">Build</Link>
           <Link to="/contact" className="hover:text-primary">Contact</Link>
         </div>
       </div>
