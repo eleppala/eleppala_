@@ -14,6 +14,10 @@ body {
   @apply bg-secondary text-third;
 }
 
+body.light {
+  @apply bg-third text-secondary;
+}
+
 /* Used only for previewing colors (VS Code swatches) */
 .color-preview-primary   { color: #10b981; }
 .color-preview-secondary { color: #18181b; }
