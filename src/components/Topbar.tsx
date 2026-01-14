@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 function Topbar() {
   return (
-    <nav className="text-third px-6 py-4 bg-secondary">
+    <nav className="text-third px-6 py-4 ">
       <div className="flex justify-between items-center">
         <span className="font-bold text-xl">eleppala</span>
         <div className="flex gap-6">
