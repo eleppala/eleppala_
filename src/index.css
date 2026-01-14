@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #10b981;    /* emerald */
+  --color-secondary: #18181b;  /* near black */
+  --color-third: #f4f4f5;      /* zinc light */
+}
+
+/* Used only for previewing colors (VS Code swatches) */
+.color-preview-primary   { color: #10b981; }
+.color-preview-secondary { color: #18181b; }
+.color-preview-third     { color: #f4f4f5; }
