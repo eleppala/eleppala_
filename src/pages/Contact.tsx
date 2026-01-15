@@ -2,11 +2,13 @@ import ContactForm from '../components/ContactForm'
 
 function Contact() {
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md text-center space-y-4">
-        <p className="text-gray-500">
-          NOTE: This contact form is not in use.
+    <main className="min-h-screen flex justify-center">
+      <div className="py-12 w-full max-w-md  space-y-6">
+        <p >
+          <strong>Interested in working together?</strong><br />
+          Whether it’s a project, a job opportunity, or simple feedback — feel free to reach out.
         </p>
+
         <ContactForm />
       </div>
     </main>
