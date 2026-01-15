@@ -9,6 +9,18 @@ A personal website built for learning purposes.
 - **Tailwind CSS v4** - Utility-first CSS framework
 - **TypeScript** - Type-safe JavaScript
 
+## Components
+
+### Terminal
+
+An interactive terminal component (`src/components/Terminal.tsx`) that simulates a command-line interface:
+
+- **Intro animation**: Types `whoami` and `help` commands letter by letter on load
+- **Interactive mode**: Accepts user input after intro completes
+- **Available commands**: `help`, `whoami`, `clear`, `ls`, `cd`
+- **Responsive**: Scales width/height and font size for mobile and desktop
+- **Dark themed**: Custom scrollbar styling
+
 ## Getting Started
 
 ```bash

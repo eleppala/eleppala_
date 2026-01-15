@@ -1,8 +1,12 @@
+import Terminal from '../components/Terminal'
+
 
 function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <h1>Landing - Currently building new.. </h1>
+    <main className="mt-28 min-h-screen flex justify-center">
+      <div className="">
+          <Terminal />
+      </div>
     </main>
   )
 }
