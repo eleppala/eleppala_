@@ -1,9 +1,16 @@
 export const onRequestPost: PagesFunction = async (context) => {
   const { name, email, message } = await context.request.json()
 
-  // Basic validation
   if (!name || !email || !message) {
     return new Response('Missing fields', { status: 400 })
+  }
+
+  if (name.length > 100 || message.length > 5000) {
+    return new Response('Invalid input', { status: 400 })
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return new Response('Invalid email', { status: 400 })
   }
 
   const resendApiKey = context.env.RES_AK

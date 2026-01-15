@@ -2,6 +2,8 @@ import { useState } from 'react'
 
 function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+  const [message, setMessage] = useState('')
+  const [name, setName] = useState('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -35,12 +37,18 @@ function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div>
-        <label htmlFor="name" className="block mb-1">Name</label>
+        <div className="flex justify-between mb-1">
+          <label htmlFor="name" className="block">Name</label>
+          <span className="text-sm text-zinc-500">{name.length}/100</span>
+        </div>
         <input
           type="text"
           id="name"
           name="name"
           required
+          maxLength={100}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded focus:outline-none focus:border-primary"
         />
       </div>
@@ -51,16 +59,23 @@ function ContactForm() {
           id="email"
           name="email"
           required
+          maxLength={254}
           className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded focus:outline-none focus:border-primary"
         />
       </div>
       <div>
-        <label htmlFor="message" className="block mb-1">Message</label>
+        <div className="flex justify-between mb-1">
+          <label htmlFor="message" className="block">Message</label>
+          <span className="text-sm text-zinc-500">{message.length}/5000</span>
+        </div>
         <textarea
           id="message"
           name="message"
           rows={4}
           required
+          maxLength={5000}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded focus:outline-none focus:border-primary"
         />
       </div>
