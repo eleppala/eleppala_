@@ -22,7 +22,7 @@ function Build() {
   }
 
   return (
-    <main className="min-h-screen p-8 max-w-3xl mx-auto">
+    <main className="min-h-screen mt-16 p-8 max-w-3xl mx-auto">
       <h1 className="text-4xl font-bold mb-8">Build Log</h1>
       
       <div className="space-y-4">
