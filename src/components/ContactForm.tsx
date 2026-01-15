@@ -53,7 +53,9 @@ function ContactForm() {
         />
       </div>
       <div>
-        <label htmlFor="email" className="block mb-1">Email</label>
+        <div className="flex justify-between mb-1">
+            <label htmlFor="email" className="block mb-1">Email</label>
+        </div>
         <input
           type="email"
           id="email"
