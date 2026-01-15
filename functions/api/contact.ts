@@ -6,30 +6,24 @@ export const onRequestPost: PagesFunction = async (context) => {
     return new Response('Missing fields', { status: 400 })
   }
 
-  const send = await fetch('https://api.mailchannels.net/tx/v1/send', {
+  const resendApiKey = context.env.RES_AK
+
+  if (!resendApiKey) {
+    return new Response('Server configuration error', { status: 500 })
+  }
+
+  const send = await fetch('https://api.resend.com/emails', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${resendApiKey}`,
+    },
     body: JSON.stringify({
-      personalizations: [
-        {
-          to: [{ email: 'contact@eleppala.com' }],
-        },
-      ],
-      from: {
-        email: 'noreply@eleppala.com',
-        name: 'Contact Form',
-      },
-      reply_to: {
-        email: email,
-        name: name,
-      },
+      from: 'Contact Form <noreply@eleppala.com>',
+      to: 'contact@eleppala.com',
+      reply_to: email,
       subject: `Contact from ${name}`,
-      content: [
-        {
-          type: 'text/plain',
-          value: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-        },
-      ],
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     }),
   })
 
