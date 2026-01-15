@@ -39,7 +39,7 @@ function ContactForm() {
       <div>
         <div className="flex justify-between mb-1">
           <label htmlFor="name" className="block">Name</label>
-          <span className="text-sm text-zinc-500">{name.length}/100</span>
+          <span className="text-sm">{name.length}/100</span>
         </div>
         <input
           type="text"
@@ -49,7 +49,7 @@ function ContactForm() {
           maxLength={100}
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded focus:outline-none focus:border-primary"
+          className="w-full px-3 py-2 bg-zinc-500 border border-zinc-400 rounded focus:outline-none focus:border-primary"
         />
       </div>
       <div>
@@ -62,13 +62,13 @@ function ContactForm() {
           name="email"
           required
           maxLength={254}
-          className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded focus:outline-none focus:border-primary"
+          className="w-full px-3 py-2 bg-zinc-500 border border-zinc-400 rounded focus:outline-none focus:border-primary"
         />
       </div>
       <div>
         <div className="flex justify-between mb-1">
           <label htmlFor="message" className="block">Message</label>
-          <span className="text-sm text-zinc-500">{message.length}/5000</span>
+          <span className="text-sm">{message.length}/5000</span>
         </div>
         <textarea
           id="message"
@@ -78,7 +78,7 @@ function ContactForm() {
           maxLength={5000}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded focus:outline-none focus:border-primary"
+          className="w-full px-3 py-2 bg-zinc-500 border border-zinc-400 rounded focus:outline-none focus:border-primary"
         />
       </div>
       <button
