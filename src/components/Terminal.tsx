@@ -1,233 +1,230 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface TerminalLine {
-  type: 'command' | 'response'
-  text: string
+  type: 'command' | 'response';
+  text: string;
 }
+
+interface IntroLine {
+  text: string;
+  className: string;
+}
+
+const INITIAL_COMMAND = 'whoami';
+
+const INTRO_LINES: IntroLine[] = [
+  { text: "Hi, I'm Eemeli", className: "text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent" },
+  { text: "Software Developer", className: "text-2xl md:text-3xl text-muted-foreground font-light tracking-wider" },
+  { text: "Welcome to my page", className: "text-lg md:text-xl text-muted-foreground/70" },
+  { text: "scroll down or type help", className: "text-sm text-primary/60 font-mono mt-4" },
+];
+
+const HELP_RESPONSE = [
+  'Available commands:',
+  '  whoami   - Show intro',
+  '  about    - Learn more about me',
+  '  skills   - View my tech stack',
+  '  contact  - Get in touch',
+  '  clear    - Clear terminal',
+  '  More Commands Coming Soon!',
+];
 
 interface TerminalProps {
-  onTypingComplete?: () => void
-  isTyping?: boolean
+  scrollProgress?: number;
 }
 
-type Phase = 'intro-whoami' | 'intro-whoami-done' | 'intro-help' | 'intro-help-done' | 'interactive'
+function Terminal({ scrollProgress = 0 }: TerminalProps) {
+  const navigate = useNavigate();
+  const [lines, setLines] = useState<TerminalLine[]>([]);
+  const [currentCommand, setCurrentCommand] = useState('');
+  const [typingIndex, setTypingIndex] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [showIntro, setShowIntro] = useState(false);
+  const [visibleIntroLines, setVisibleIntroLines] = useState(0);
+  const [userInput, setUserInput] = useState('');
+  const [isCleared, setIsCleared] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-function Terminal({ onTypingComplete, isTyping = true }: TerminalProps) {
-  const [phase, setPhase] = useState<Phase>('intro-whoami')
-  const [introCommandText, setIntroCommandText] = useState('')
-  const [history, setHistory] = useState<TerminalLine[]>([])
-  const [currentInput, setCurrentInput] = useState('')
-  const [showCursor, setShowCursor] = useState(true)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const terminalRef = useRef<HTMLDivElement>(null)
+  // Calculate transform based on scroll
+  const scale = 1 - (scrollProgress * 0.3);
+  const translateY = scrollProgress * -100;
+  const borderRadius = 8 + (scrollProgress * 16);
 
-  const whoamiCommand = 'whoami'
-  const whoamiResponse = 'Eemeli Leppälä - A software Developer'
-  const helpCommand = 'help'
-  const helpResponse = 'Available commands: help, whoami, clear, ls, cd'
-
-  // Phase 1: Type "whoami"
+  // Blinking cursor effect
   useEffect(() => {
-    if (!isTyping || phase !== 'intro-whoami') return
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 530);
+    return () => clearInterval(cursorInterval);
+  }, []);
 
-    let index = 0
-    const interval = setInterval(() => {
-      if (index < whoamiCommand.length) {
-        setIntroCommandText(whoamiCommand.slice(0, index + 1))
-        index++
-      } else {
-        clearInterval(interval)
-        setPhase('intro-whoami-done')
-      }
-    }, 80)
-
-    return () => clearInterval(interval)
-  }, [isTyping, phase])
-
-  // Phase 2: Wait, show whoami response, then start typing help
+  // Typing animation for initial command
   useEffect(() => {
-    if (phase !== 'intro-whoami-done') return
+    if (typingIndex < INITIAL_COMMAND.length) {
+      const timeout = setTimeout(() => {
+        setCurrentCommand(INITIAL_COMMAND.slice(0, typingIndex + 1));
+        setTypingIndex(prev => prev + 1);
+      }, 150);
+      return () => clearTimeout(timeout);
+    } else if (!showIntro) {
+      const timeout = setTimeout(() => {
+        setShowIntro(true);
+      }, 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [typingIndex, showIntro]);
 
-    const timer = setTimeout(() => {
-      setHistory([
-        { type: 'command', text: whoamiCommand },
-        { type: 'response', text: whoamiResponse },
-      ])
-      setIntroCommandText('')
-      setPhase('intro-help')
-    }, 400)
-
-    return () => clearTimeout(timer)
-  }, [phase])
-
-  // Phase 3: Type "help"
+  // Staggered intro line animation
   useEffect(() => {
-    if (phase !== 'intro-help') return
+    if (showIntro && visibleIntroLines < INTRO_LINES.length) {
+      const timeout = setTimeout(() => {
+        setVisibleIntroLines(prev => prev + 1);
+      }, 200);
+      return () => clearTimeout(timeout);
+    } else if (showIntro && visibleIntroLines === INTRO_LINES.length && !isTypingComplete) {
+      const timeout = setTimeout(() => {
+        setIsTypingComplete(true);
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [showIntro, visibleIntroLines, isTypingComplete]);
 
-    let index = 0
-    const interval = setInterval(() => {
-      if (index < helpCommand.length) {
-        setIntroCommandText(helpCommand.slice(0, index + 1))
-        index++
-      } else {
-        clearInterval(interval)
-        setPhase('intro-help-done')
-      }
-    }, 80)
-
-    return () => clearInterval(interval)
-  }, [phase])
-
-  // Phase 4: Wait, show help response, become interactive
-  useEffect(() => {
-    if (phase !== 'intro-help-done') return
-
-    const timer = setTimeout(() => {
-      setHistory(prev => [
-        ...prev,
-        { type: 'command', text: helpCommand },
-        { type: 'response', text: helpResponse },
-      ])
-      setIntroCommandText('')
-      setPhase('interactive')
-      onTypingComplete?.()
-    }, 400)
-
-    return () => clearTimeout(timer)
-  }, [phase, onTypingComplete])
-
-  // Blinking cursor
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowCursor(prev => !prev)
-    }, 530)
-    return () => clearInterval(interval)
-  }, [])
-
-  // Focus input when clicking terminal
   const handleTerminalClick = () => {
-    if (phase === 'interactive') {
-      inputRef.current?.focus()
-    }
-  }
+    inputRef.current?.focus();
+  };
 
-  // Handle command execution
-  const executeCommand = (cmd: string) => {
-    const trimmedCmd = cmd.trim().toLowerCase()
-    let response = ''
-
-    switch (trimmedCmd) {
-      case 'help':
-        response = helpResponse
-        break
-      case 'whoami':
-        response = whoamiResponse
-        break
-      case 'clear':
-        setHistory([])
-        setCurrentInput('')
-        return
-      case 'ls':
-        response = 'projects/  about.txt  contact.txt'
-        break
-      case 'cd':
-        response = 'Usage: cd <directory>'
-        break
-      case '':
-        setHistory(prev => [...prev, { type: 'command', text: '' }])
-        setCurrentInput('')
-        return
-      default:
-        response = `command not found: ${trimmedCmd}`
-    }
-
-    setHistory(prev => [
-      ...prev,
-      { type: 'command', text: cmd },
-      { type: 'response', text: response },
-    ])
-    setCurrentInput('')
-  }
-
-  // Handle keyboard input
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      executeCommand(currentInput)
-    }
-  }
+    if (e.key === 'Enter' && userInput.trim()) {
+      const command = userInput.trim().toLowerCase();
+      
+      let response: string[] = [];
+      
+      switch (command) {
+        case 'help':
+          response = HELP_RESPONSE;
+          break;
+        case 'whoami':
+          setLines([]);
+          setIsCleared(false);
+          setUserInput('');
+          return;
+        case 'about':
+          response = ['Navigating to About page...'];
+          setTimeout(() => navigate('/about'), 500);
+          break;
+        case 'contact':
+          response = ['Navigating to Contact page...'];
+          setTimeout(() => navigate('/contact'), 500);
+          break;
+        case 'skills':
+          response = [
+            'Tech Stack:',
+            '  Languages: C, C++, TypeScript, JavaScript, Python',
+            '  Frontend:  React, Vue, Nuxt, Tailwind CSS, Vite',
+            '  Backend:   Node.js, Supabase',
+            '  Tools:     Git, Docker, Linux',
+          ];
+          break;
+        case 'clear':
+          setLines([]);
+          setIsCleared(true);
+          setUserInput('');
+          return;
+        default:
+          response = [`Command not found: ${command}`, 'Type "help" for available commands'];
+      }
 
-  // Auto-scroll to bottom
-  useEffect(() => {
-    if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+      setLines(prev => [
+        ...prev,
+        { type: 'command' as const, text: userInput },
+        ...response.map(text => ({ type: 'response' as const, text })),
+      ]);
+      setUserInput('');
+      
+      setTimeout(() => {
+        containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight, behavior: 'smooth' });
+      }, 10);
     }
-  }, [history])
-
-  const cursorVisible = showCursor ? 'opacity-100' : 'opacity-0'
-  const isIntroPhase = phase.startsWith('intro')
+  };
 
   return (
     <div
-      className="w-[calc(100vw-2rem)] sm:w-[420px] md:w-[500px] lg:w-[600px] h-[200px] sm:h-[250px] md:h-[280px] bg-gray-900 rounded-lg shadow-2xl overflow-hidden cursor-text mx-4 border-[0.5px] border-gray-700"
+      ref={containerRef}
+      className="w-full h-full bg-card/95 backdrop-blur-md border border-border shadow-2xl overflow-auto transition-all duration-100"
+      style={{
+        transform: `scale(${scale}) translateY(${translateY}px)`,
+        borderRadius: `${borderRadius}px`,
+      }}
       onClick={handleTerminalClick}
     >
       {/* Terminal header */}
-      <div className="flex items-center gap-2 px-4 py-2 bg-gray-800 border-b border-black">
+      <div className="sticky top-0 z-10 flex items-center gap-2 px-4 py-3 bg-secondary/80 backdrop-blur-sm border-b border-border">
         <div className="w-3 h-3 rounded-full bg-red-500" />
         <div className="w-3 h-3 rounded-full bg-yellow-500" />
         <div className="w-3 h-3 rounded-full bg-green-500" />
-        <span className="ml-2 text-gray-400 text-xs font-mono">eleppala/ -- -zsh -- </span>
+        <span className="ml-4 text-sm text-muted-foreground font-mono">terminal — eemeli</span>
       </div>
-
-      {/* Terminal body */}
-      <div
-        ref={terminalRef}
-        className="p-3 font-mono text-green-400 text-xs sm:text-sm h-[calc(100%-44px)] overflow-y-auto text-left space-y-1 dark-scrollbar"
-      >
-        {/* History lines */}
-        {history.map((line, index) => (
-          <div key={index}>
-            {line.type === 'command' ? (
-              <>
-                <span className="text-gray-500">$ </span>
-                <span>{line.text}</span>
-              </>
-            ) : (
-              <span>{line.text}</span>
-            )}
-          </div>
-        ))}
-
-        {/* Current typing line during intro */}
-        {isIntroPhase && (
-          <div>
-            <span className="text-gray-500">$ </span>
-            <span>{introCommandText}</span>
-            <span className={`${cursorVisible} transition-opacity`}>▋</span>
+      
+      {/* Terminal content */}
+      <div className="p-6 md:p-10 font-mono text-sm md:text-lg min-h-[calc(100%-48px)] overflow-y-auto flex flex-col">
+        {/* Initial typing animation */}
+        {!isCleared && (
+          <div className="flex items-center">
+            <span className="text-primary mr-2">❯</span>
+            <span>{showIntro ? INITIAL_COMMAND : currentCommand}</span>
+            {!showIntro && <span className={`ml-0.5 ${showCursor ? 'opacity-100' : 'opacity-0'}`}>▊</span>}
           </div>
         )}
-
-        {/* Interactive input line */}
-        {phase === 'interactive' && (
-          <div className="flex">
-            <span className="text-gray-500">$ </span>
-            <span>{currentInput}</span>
-            <span className={`${cursorVisible} transition-opacity`}>▋</span>
-            {/* Hidden input for capturing keyboard */}
+        
+        {/* Impressive intro section */}
+        {showIntro && !isCleared && (
+          <div className="flex flex-col items-center justify-center flex-1 py-12 md:py-20 space-y-3">
+            {INTRO_LINES.map((line, index) => (
+              <div
+                key={index}
+                className={`${line.className} transition-all duration-500 ${
+                  index < visibleIntroLines 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-4'
+                }`}
+              >
+                {line.text}
+              </div>
+            ))}
+          </div>
+        )}
+        
+        {/* Rendered lines (after intro, for user commands) */}
+        {lines.map((line, index) => (
+          <div key={index} className={line.type === 'command' ? 'flex items-center' : 'ml-4 text-muted-foreground'}>
+            {line.type === 'command' && <span className="text-primary mr-2">❯</span>}
+            <span>{line.text}</span>
+          </div>
+        ))}
+        
+        {/* User input line */}
+        {isTypingComplete && (
+          <div className="flex items-center mt-2">
+            <span className="text-primary mr-2">❯</span>
+            <span>{userInput}</span>
+            <span className={`ml-0.5 ${showCursor ? 'opacity-100' : 'opacity-0'}`}>▊</span>
             <input
               ref={inputRef}
               type="text"
-              value={currentInput}
-              onChange={e => setCurrentInput(e.target.value)}
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="absolute opacity-0 pointer-events-none"
+              className="absolute opacity-0 pointer-events-auto"
               autoFocus
             />
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Terminal
+export default Terminal;

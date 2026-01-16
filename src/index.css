@@ -4,27 +4,33 @@
 @theme {
   --font-sans: 'Poppins', system-ui, sans-serif;
 
-  --color-primary: #10b981;    /* emerald */
-  --color-secondary: #18181b;  /* near black */
-  --color-third: #f4f4f5;      /* zinc light */
+  /* Dark theme colors (default) */
+  --color-primary: #10b981;          /* emerald */
+  --color-secondary: #27272a;        /* zinc-800 */
+  --color-background: #18181b;       /* near black */
+  --color-foreground: #f4f4f5;       /* zinc-100 */
+  --color-card: #1f1f23;             /* slightly lighter than bg */
+  --color-border: #3f3f46;           /* zinc-700 */
+  --color-muted: #27272a;            /* zinc-800 */
+  --color-muted-foreground: #a1a1aa; /* zinc-400 */
 }
 
 body {
   font-family: var(--font-sans);
-  @apply bg-secondary text-third;
+  @apply bg-background text-foreground;
 }
 
 body.light {
-  @apply bg-third text-secondary;
+  --color-background: #f4f4f5;
+  --color-foreground: #18181b;
+  --color-card: #ffffff;
+  --color-border: #e4e4e7;
+  --color-secondary: #e4e4e7;
+  --color-muted: #e4e4e7;
+  --color-muted-foreground: #71717a;
 }
 
-/* Used only for previewing colors (VS Code swatches) */
-.color-preview-primary   { color: #10b981; }
-.color-preview-secondary { color: #18181b; }
-.color-preview-third     { color: #f4f4f5; }
-
-
-/* Background animating stuff */
+/* Background animation */
 @keyframes float {
   0%, 100% { transform: translateY(0) translateX(0); }
   50% { transform: translateY(-120px) translateX(60px); }
@@ -37,21 +43,33 @@ body.light {
 .delay-2000 { animation-delay: 2s; }
 .delay-4000 { animation-delay: 4s; }
 
-
-
-
-
-/* Dark scrollbar for terminal */
-.dark-scrollbar::-webkit-scrollbar {
+/* Dark scrollbar (default) */
+::-webkit-scrollbar {
   width: 8px;
 }
-.dark-scrollbar::-webkit-scrollbar-track {
-  background: #1f2937;
+
+::-webkit-scrollbar-track {
+  background: #27272a;
 }
-.dark-scrollbar::-webkit-scrollbar-thumb {
-  background: #4b5563;
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
   border-radius: 4px;
 }
-.dark-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* Light scrollbar */
+body.light ::-webkit-scrollbar-track {
+  background: #e4e4e7;
+}
+
+body.light ::-webkit-scrollbar-thumb {
+  background: #a1a1aa;
+}
+
+body.light ::-webkit-scrollbar-thumb:hover {
+  background: #71717a;
 }
