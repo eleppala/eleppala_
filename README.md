@@ -1,5 +1,7 @@
 # Personal Website
 
+> This site is still in progress, some features might be incomplete or missing. Updating constantly. :)
+
 A personal website built for learning purposes.
 
 ## Tech Stack
