@@ -83,12 +83,12 @@ export const timelineData = [
     },
     {
         year: "Autumn 2025",
-        title: "Graduate",
+        title: "Graduation",
         image: "timeline/hive.png",
         preview: "Hive Alumni",
         links: [
-            { url: "https://certificates.hive.fi/8124c3ec-31b8-4cc1-b84a-7e41c6fea044", label: "Hive certtificate" },
-            { url: "https://www.credly.com/badges/8017dbd5-d6f3-4f5f-95be-52d5b7828acd/linked_in_profile", label: "42 certtificate" }
+            { url: "https://certificates.hive.fi/8124c3ec-31b8-4cc1-b84a-7e41c6fea044", label: "Hive certificate" },
+            { url: "https://www.credly.com/badges/8017dbd5-d6f3-4f5f-95be-52d5b7828acd/linked_in_profile", label: "42 certificate" }
         ],
         content: `For my final Hive project, we built a full-stack web application for a Pong game. It was originally \
         designed for a 5-person group, but our team completed it with just 3 of us — so there was plenty of work to handle.
