@@ -17,7 +17,7 @@ function About() {
             My Coding Journey
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            A timeline of milestones, growth, and the passion that drives us forward.
+            A timeline of my coding journey - more content will be added soon.
           </p>
         </motion.div>
 
