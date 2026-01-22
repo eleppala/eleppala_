@@ -9,7 +9,7 @@ interface TimelineCardProps {
   content: string;
   year: string;
   isLeft?: boolean;
-  links?: { url: string; label: string; icon: React.ReactNode }[];
+  links?: { url: string; label: string; icon?: React.ReactNode }[];
 }
 
 const TimelineCard = ({ title, image, preview, content, year, isLeft = false, links }: TimelineCardProps) => {
