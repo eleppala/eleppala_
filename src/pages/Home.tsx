@@ -45,13 +45,12 @@ function Home() {
             transform: `translateY(${Math.max(0, (1 - scrollProgress) * 30)}px)`,
           }}
         >
-          <h2 className="text-3xl font-bold mb-4">More content coming soon...</h2>
-          <p className="text-muted-foreground">
-            Type help to get started 
+          <h2 className="text-3xl font-bold mb-4">Type help to get started</h2>
+          <p className="text-muted-foreground"> 
           </p>
           <p className="text-muted-foreground">
-            or check out the <a href="/build" className="text-primary hover:underline">Build</a> page
-            or <a href="/contact" className="text-primary hover:underline">get in touch</a>.
+            or check out the <a href="/about" className="text-primary hover:underline">About</a> page
+            or <a href="/build" className="text-primary hover:underline">build</a>.
           </p>
         </div>
 
