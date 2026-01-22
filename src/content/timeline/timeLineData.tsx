@@ -6,7 +6,7 @@ export const timelineData = [
         preview: "About me",
         links: [
                     { url: "https://github.com/eleppala", label: "GitHub" },
-                    { url: "https://certificates.hive.fi/8124c3ec-31b8-4cc1-b84a-7e41c6fea044", label: "Hive certtificate" },
+                    { url: "https://certificates.hive.fi/8124c3ec-31b8-4cc1-b84a-7e41c6fea044", label: "Hive certificate" },
                     { url: "https://linkedin.com/in/eleppala", label: "LinkedIn" }
                 ],
         content: `I’m a 42 alumni from Hive Helsinki, with a background in sales and a clear focus on building my future in software development.
