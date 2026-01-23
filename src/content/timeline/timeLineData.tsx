@@ -38,9 +38,10 @@ export const timelineData = [
         title: "This website",
         image: "timeline/code.png",
         preview: "Learn & Showcase",
-        content: `AI is everywhere today, and I was recently asked to work on a project that uses Lovable AI. I decided to build \
-        this website using the same tech stack — React, TypeScript, Vite, and Tailwind — to learn modern web development \
-        by doing.
+        content: `AI is everywhere today, and I was recently asked to work on a project that uses Lovable AI. \
+        I tested the tool and found it to be highly user-friendly and fast. The main limitation was my lack of \
+        familiarity with the underlying technology stack. So I decided to build this website using the same tech \
+        stack — React, TypeScript, Vite, and Tailwind — to learn modern web development by doing.
 
         Along the way, I bought a domain through Cloudflare, figured out how to publish the site, and configured everything \
         from deployments to email. I also set up a contact form with redirections to my own email.
